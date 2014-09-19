@@ -13,7 +13,6 @@ use Webiny\Component\StdLib\StdObject\ArrayObject\ArrayObject;
 
 /**
  * ServiceManager is the main class for working with services.
- *
  * @package         Webiny\Component\ServiceManager
  */
 class ServiceManager
@@ -33,7 +32,7 @@ class ServiceManager
      * @param string $serviceName Requested service name
      *
      * @throws ServiceManagerException
-     * @return mixed
+     * @return object
      */
     public function getService($serviceName)
     {
