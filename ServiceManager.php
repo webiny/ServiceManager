@@ -4,6 +4,7 @@
  *
  * @copyright Copyright Webiny LTD
  */
+
 namespace Webiny\Component\ServiceManager;
 
 use Webiny\Component\Config\ConfigObject;
@@ -44,15 +45,19 @@ class ServiceManager
      */
     public function getService($serviceName)
     {
-        $serviceName = $this->str($serviceName)->trimLeft("@")->val();
-        if (!$this->registeredServices->keyExists($serviceName)) {
+        $serviceName = ltrim($serviceName, '@');
+        if (!isset($this->registeredServices[$serviceName])) {
             throw new ServiceManagerException(ServiceManagerException::SERVICE_DEFINITION_NOT_FOUND, [$serviceName]);
         }
-        if (!$this->instantiatedServices->keyExists($serviceName)) {
-            $this->instantiateService($serviceName);
+
+        // Instantiate new service or get existing service instance
+        if (!isset($this->instantiatedServices[$serviceName])) {
+            $service = $this->instantiateService($serviceName);
+        } else {
+            $service = $this->instantiatedServices[$serviceName];
         }
 
-        return $this->instantiatedServices->key($serviceName);
+        return $service;
     }
 
     /**
